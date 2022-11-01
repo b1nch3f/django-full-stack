@@ -87,14 +87,18 @@ TEMPLATES = [
 ```
 ### update hello-world in app_name/views.py
 ```
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 
-def index(request):
-    data = {
-        'myVar': 'welcome to templates.'
-    }
-    return render(request, 'first_app/index.html', context=data)
+class IndexView(TemplateView):
+    template_name = 'first_app/index.html'
+```
+### update url config in app_name/urls.py
+```
+from first_app.views import IndexView
+
+urlpatterns = [
+    path('', IndexView.as_view()),
+]
 ```
 ## Part-3 (REST)
 
@@ -102,3 +106,74 @@ def index(request):
 ```
 pip install djangorestframework
 ```
+### add app_name to project project_name/settings.py
+```
+INSTALLED_APPS = [
+    '...'
+    'rest_framework'
+]
+```
+## Part-4 (Serialize)
+
+### update first_app/models.py
+```
+from django.db import models
+
+class Users(models.Model):
+  firstname = models.CharField(max_length=255)
+  lastname = models.CharField(max_length=255)
+```
+### makemigrations and migrate
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+### Add Record
+```
+py manage.py shell
+```
+```
+from first_app.models import Users
+```
+```
+Users.objects.all()
+```
+```
+user = Users(firstname='Emil', lastname='Refsnes')
+```
+```
+Users.objects.all().values()
+```
+### Add UserData API to first_app/views.py
+```
+from django.views.generic import TemplateView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.http import JsonResponse
+from rest_framework import status
+from .models import Users
+from django.core import serializers
+
+import logging
+logger = logging.getLogger(__name__)
+
+class IndexView(TemplateView):
+    template_name = 'first_app/index.html'
+
+class UserData(APIView):
+    def get(self, request, format=None):
+        users = Users.objects.all()
+        data = serializers.serialize("json", users)
+        return Response(data)
+```
+### Update first_app/urls.py
+```
+from django.urls import path
+from first_app.views import IndexView, UserData
+
+urlpatterns = [
+    path('', IndexView.as_view()),
+    path('userdata', UserData.as_view(), name='UserData'),
+]
+```
+## Part-5 (Front-End)
