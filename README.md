@@ -178,7 +178,9 @@ urlpatterns = [
 ```
 ## Part-5 (Front-End)
 
-### Add jquery-3.6.1.min.js, script.js, style.css to first_app/static/first_app directory
+### Add jquery-3.6.1.min.js to first_app/static/first_app directory
+
+### Add script.js to first_app/static/first_app directory
 ```
 console.log('js from first_app');
 
@@ -188,6 +190,7 @@ $(document).ready(function(){
     })
 });
 ```
+### Add style.css to first_app/static/first_app directory
 ```
 body {
     color: red;
