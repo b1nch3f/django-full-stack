@@ -177,3 +177,19 @@ urlpatterns = [
 ]
 ```
 ## Part-5 (Front-End)
+
+### Add jquery-3.6.1.min.js, script.js, style.css to first_app/static/first_app directory
+```
+console.log('js from first_app');
+
+$(document).ready(function(){
+    $.get("/first_app/userdata", function(data, status){
+        console.log("Data: " + JSON.parse(JSON.stringify(data)) + "\nStatus: " + status);
+    })
+});
+```
+```
+body {
+    color: red;
+}
+```
