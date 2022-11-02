@@ -196,3 +196,12 @@ body {
     color: red;
 }
 ```
+### Update index.html in first_app/templates/first_app
+```
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'first_app/style.css' %}">
+<em>Hello World!!! {{ myVar }}</em>
+<script type="text/javascript" src="{% static 'first_app/jquery-3.6.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'first_app/script.js' %}"></script>
+```
